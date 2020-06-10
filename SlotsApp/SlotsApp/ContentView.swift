@@ -10,6 +10,9 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var credits = 1000
+    @State private var numbers = [1,2,0]
+    private var symbols = ["apple","star","cherry"]
+    private var betAmount = 5
     
     var body: some View {
         ZStack{
@@ -52,17 +55,17 @@ struct ContentView: View {
                 //Cards
                 HStack{
                     Spacer()
-                    Image("apple").resizable().aspectRatio(1, contentMode: .fit)
+                    Image(symbols[numbers[0]]).resizable().aspectRatio(1, contentMode: .fit)
                         .background(Color(.white)
                             .opacity(0.5))
                         .cornerRadius(20)
                     
-                    Image("apple").resizable().aspectRatio(1, contentMode: .fit)
+                    Image(symbols[numbers[1]]).resizable().aspectRatio(1, contentMode: .fit)
                         .background(Color(.white)
                             .opacity(0.5))
                         .cornerRadius(20)
                     
-                    Image("apple").resizable().aspectRatio(1, contentMode: .fit)
+                    Image(symbols[numbers[2]]).resizable().aspectRatio(1, contentMode: .fit)
                         .background(Color(.white)
                             .opacity(0.5))
                         .cornerRadius(20)
@@ -73,7 +76,22 @@ struct ContentView: View {
                 
                 //Button
                 Button(action: {
-                    self.credits += 1
+                    
+                    //change images
+                    self.numbers[0] = Int.random(in: 0...self.symbols.count - 1)
+                    self.numbers[1] = Int.random(in: 0...self.symbols.count - 1)
+                    self.numbers[2] = Int.random(in: 0...self.symbols.count - 1)
+                    
+                    //check winning
+                    
+                    if self.numbers[0] == self.numbers[1] && self.numbers[1] == self.numbers[2] {
+                        
+                        // won
+                        self.credits += self.betAmount * 10
+                    }else{
+                        // lose
+                        self.credits -= self.betAmount
+                    }
                 }) {
                     Text("Spin").foregroundColor(.white)
                         .padding(.all, 10).padding([.leading,.trailing], 30)
